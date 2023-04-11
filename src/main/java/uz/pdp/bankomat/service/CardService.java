@@ -3,8 +3,10 @@ package uz.pdp.bankomat.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.pdp.bankomat.entity.Card;
+import uz.pdp.bankomat.entity.User;
 import uz.pdp.bankomat.payload.Result;
 import uz.pdp.bankomat.repository.CardRepo;
+import uz.pdp.bankomat.repository.UserRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,8 @@ public class CardService {
 
     @Autowired
     CardRepo cardRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public List<Card> allCardList() {
         List<Card> cardList = cardRepo.findAll();
@@ -33,11 +37,14 @@ public class CardService {
         }
         card1.setFullName(card.getFullName());
         card1.setLastName(card.getLastName());
-        card1.setCardType(card.getCardType());
         card1.setBankName(card.getBankName());
         card1.setValidity(card.getValidity());
         card1.setCode(card.getCode());
-        card1.setCodeCVV(card.getCodeCVV());
+        userRepo.getReferenceById(card.getId());
+        boolean byCodeCVV = cardRepo.existsByCodeCVV(card.getCodeCVV());
+        if (byCodeCVV){
+            return  new Result("Code mavjud",false);
+        }
         cardRepo.save(card1);
 
         return new Result("Added Card", true);
@@ -50,7 +57,6 @@ public class CardService {
             card1.setFullName(card.getFullName());
             card1.setLastName(card.getLastName());
             card1.setCardNumber(card.getCardNumber());
-            card1.setCardType(card.getCardType());
             card1.setBankName(card.getBankName());
             card1.setValidity(card.getValidity());
             card1.setCode(card.getCode());

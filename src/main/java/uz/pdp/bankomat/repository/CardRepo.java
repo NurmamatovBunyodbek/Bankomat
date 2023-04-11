@@ -7,4 +7,6 @@ public interface CardRepo extends JpaRepository<Card,Integer> {
 
         boolean existsByCardNumber(String cardNumber);
 
+        boolean existsByCodeCVV(Integer codeCVV);
+
 }

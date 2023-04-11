@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.pdp.bankomat.entity.enums.CardType;
 
 @Data
 @AllArgsConstructor
@@ -26,10 +27,12 @@ public class Card {
     private String validity;
     @Column(nullable = false)
     private Integer code;
+
     @Column(nullable = false)
-    private String cardType;
+    private String card;
     @Column(nullable = false,unique = true)
     private Integer codeCVV;
-
+    @OneToOne
+    private User user;
 
 }

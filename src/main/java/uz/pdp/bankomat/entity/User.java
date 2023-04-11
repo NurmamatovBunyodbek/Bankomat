@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User  implements UserDetails {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,6 +32,7 @@ public class User  implements UserDetails {
     @Email
     @Column(unique = true,nullable = false)
     private String email;
+
 
 
     @ManyToMany(fetch = FetchType.EAGER)
